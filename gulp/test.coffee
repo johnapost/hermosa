@@ -1,7 +1,7 @@
 coffee = require 'gulp-coffee'
 config = require './config.coffee'
 gulp = require 'gulp'
-karma = require('karma').server
+karma = require('karma').Server
 plumber = require 'gulp-plumber'
 notify = require 'gulp-notify'
 
@@ -14,9 +14,8 @@ errorAlert = (error) ->
   this.emit 'end'
 
 gulp.task 'test', (done) ->
-  karma.start {
-    configFile: "#{__dirname}/../karma.conf.js"
-  }, done()
+  server = new karma configFile: "#{__dirname}/../karma.conf.js"
+  server.start()
 
 gulp.task 'e2e', (done) ->
   gulp.src 'e2e/**/*.coffee'
