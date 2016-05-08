@@ -27,6 +27,12 @@ require './gulp/server.coffee'
 # Tests
 require './gulp/test.coffee'
 
+# Karma TDD
+gulp.task 'tdd', [
+  'default'
+  'test'
+]
+
 # Prepares production-ready files
 gulp.task 'production', [
   'sassProduction'
