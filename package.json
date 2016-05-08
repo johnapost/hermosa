@@ -1,0 +1,19 @@
+{
+  "name": "hermosa",
+  "version": "0.1.0",
+  "description": "Residential and Commercial energy usage from the Hermosa community",
+  "main": "src/app.coffee",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnapost/hermosa.git"
+  },
+  "author": "John Apostol <notimetobeidle@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/johnapost/hermosa/issues"
+  },
+  "homepage": "https://github.com/johnapost/hermosa#readme"
+}
