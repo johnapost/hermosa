@@ -31,6 +31,7 @@ clearRows = -> results.html ''
 drawRow = (building) ->
   html =
     "<tr>
+      <td>#{building.building_subtype}</td>
       <td>#{building.total_kwh}</td>
       <td>#{building.total_therms}</td>
     </tr>"
@@ -79,3 +80,13 @@ displayCommercial = ->
 
 $(document).ready ->
   displayResidential()
+
+  $('#residential').click ->
+    $('.active').removeClass 'active'
+    $(@).parent('li').addClass 'active'
+    displayResidential()
+
+  $('#commercial').click ->
+    $('.active').removeClass 'active'
+    $(@).parent('li').addClass 'active'
+    displayCommercial()

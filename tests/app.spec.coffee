@@ -58,14 +58,20 @@ describe 'app', ->
     expect $.fn.html
       .toHaveBeenCalledWith ''
 
-  it 'drawRow should append total_kwh and total_therms', ->
+  it 'drawRow should append data', ->
     spyOn $.fn, 'append'
+    subtype = faker.hacker.noun()
     kwh = faker.random.number min: 1, max: 10
     therms = faker.random.number min: 1, max: 10
-    building = total_kwh: kwh, total_therms: therms
+    building =
+      building_subtype: subtype
+      total_kwh: kwh
+      total_therms: therms
 
     drawRow building
 
+    expect $.fn.append.calls.mostRecent().args[0].indexOf(subtype) > -1
+      .toEqual true
     expect $.fn.append.calls.mostRecent().args[0].indexOf(kwh) > -1
       .toEqual true
     expect $.fn.append.calls.mostRecent().args[0].indexOf(therms) > -1
