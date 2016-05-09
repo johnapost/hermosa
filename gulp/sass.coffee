@@ -20,7 +20,7 @@ errorAlert = (error) ->
   this.emit 'end'
 
 gulp.task 'sass', ->
-  gulp.src 'src/styles/app.scss'
+  gulp.src 'src/app.scss'
     .pipe plumber errorHandler: errorAlert
     .pipe sourcemaps.init()
 
@@ -40,7 +40,7 @@ gulp.task 'sass', ->
     .pipe browserSync.reload(stream: true)
 
 gulp.task 'sassProduction', ->
-  gulp.src 'src/styles/app.scss'
+  gulp.src 'src/app.scss'
     .pipe plumber errorHandler: errorAlert
 
     .pipe sass(style: 'expanded')

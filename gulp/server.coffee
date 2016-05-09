@@ -9,7 +9,7 @@ gulp.task 'serve', ['sass'], ->
     open: false
     reloadOnRestart: false
     ghostMode: true
-    notify: true
+    notify: false
 
   gulp.watch 'src/**/*.scss', ['sass']
   gulp.watch [
