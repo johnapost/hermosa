@@ -55,9 +55,9 @@ errorHandler = (err) ->
   results.find('tr').velocity 'transition.flipYIn', stagger: 100
 
 # Called on document ready
-init = ->
+displayResidential = ->
   residential = api.getResidential "#{baseUrl}"
   residential.success (data) -> successHandler data
   residential.error (err) -> errorHandler err
 
-$(document).ready -> init()
+$(document).ready -> displayResidential()

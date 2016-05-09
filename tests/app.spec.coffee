@@ -86,47 +86,38 @@ describe 'app', ->
       expect $.fn.velocity
         .toHaveBeenCalledWith 'transition.flipYIn', stagger: 100
 
-  describe 'errorHandler', ->
-    it 'should append the error message', ->
-      spyOn $.fn, 'append'
+  it 'errorHandler should append the error message', ->
+    spyOn $.fn, 'append'
 
-      errorHandler()
+    errorHandler()
 
-      expect $.fn.append.calls.mostRecent().args[0].indexOf('Error') > -1
-        .toEqual true
+    expect $.fn.append.calls.mostRecent().args[0].indexOf('Error') > -1
+      .toEqual true
 
-  describe 'init', ->
-    it 'should call getResidential', ->
-      success = jasmine.createSpy()
+  describe 'displayResidential', ->
+    beforeEach ->
       spyOn(api, 'getResidential').and.callFake ->
-        success: success
-        error: -> return
+        success: (func) -> func data
+        error: (func) -> func data
 
-      init()
+    it 'should call getResidential', ->
+      displayResidential()
 
       expect api.getResidential.calls.count()
-        .toEqual 1
-      expect success.calls.count()
         .toEqual 1
 
     it 'should pass data to successHandler', ->
       spyOn window, 'successHandler'
-      spyOn(api, 'getResidential').and.callFake ->
-        success: (func) -> func data
-        error: -> return
 
-      init()
+      displayResidential()
 
       expect window.successHandler
         .toHaveBeenCalledWith data
 
     it 'should pass errors to errorHandler', ->
       spyOn window, 'errorHandler'
-      spyOn(api, 'getResidential').and.callFake ->
-        success: -> return
-        error: (func) -> func data
 
-      init()
+      displayResidential()
 
       expect window.errorHandler
         .toHaveBeenCalledWith data
