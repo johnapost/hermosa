@@ -18,7 +18,7 @@ Enter ```gulp``` and you will be able to visit ```http:///localhost:4000``` and 
 Testing
 -------
 
-Run the application with ```gulp``` then run ```npm test``` in a separate console window. Karma will run the unit tests in a Firefox browser then Nightwatch will run the e2e tests in a Chrome browser.
+Run the application with ```gulp``` then run ```npm test``` in a separate console window.
 
 Uses
 ----
@@ -31,4 +31,3 @@ Uses
 * **Velocity** for UI animations
 * **Karma** for test running unit tests
 * **Jasmine** for unit tests
-* **Nightwatch** for e2e tests

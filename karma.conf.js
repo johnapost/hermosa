@@ -5,6 +5,7 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
     files: [
+      'node_modules/faker/build/build/faker.min.js',
       'node_modules/jquery/dist/jquery.min.js',
       'node_modules/velocity-animate/velocity.min.js',
       'node_modules/velocity-animate/velocity.ui.min.js',

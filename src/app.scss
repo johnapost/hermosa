@@ -1,0 +1,43 @@
+body {
+  padding-top: 90px;
+}
+
+#results {
+  tr {
+    display: none;
+  }
+}
+
+.spinner {
+  display: none;
+  font-size: 10em;
+  height: 300px;
+  left: 50%;
+  margin: {
+    left: -150px;
+    top: -150px;
+  }
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  width: 300px;
+
+  span {
+    animation: {
+      name: rotate;
+      duration: 2s;
+      iteration-count: infinite;
+      timing-function: linear;
+    }
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

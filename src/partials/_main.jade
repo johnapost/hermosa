@@ -1,0 +1,32 @@
+nav.navbar.navbar-default.navbar-fixed-top
+  .container-fluid
+    .navbar-header
+      button.navbar-toggle.collapsed(type='button' data-toggle='collapse' data-target='.navbar-collapse' aria-expanded='false')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='#') Hermosa
+
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li.active: a#residential(href='#') Residential
+        li: a#commercial(href='#') Commercial
+
+.container-fluid
+  .row
+    .col-sm-10.col-sm-offset-1
+      .well
+        p This table displays Residential and Commercial energy usage from the Hermosa community in 2010. Each row represents a different building. Clicking the links at the top of the page switches between the two building types.
+
+      .table-responsive
+        table.table.table-hover.table-striped
+          thead
+            tr
+              th Building Subtype
+              th Total Kilowatt Hours
+              th Total Therm Consumption
+
+          tbody#results
+
+.spinner: span.glyphicon.glyphicon-refresh
