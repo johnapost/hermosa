@@ -2,6 +2,7 @@
 token = 'UyyfCjtntdUtqh7ZoDkd0H1KM'
 baseUrl = 'https://data.cityofchicago.org/resource/energy-usage-2010.json'
 results = $('#results')
+spinner = $('.spinner')
 
 # Wrapper for making API calls
 api =
@@ -38,6 +39,10 @@ drawRow = (building) ->
 
   results.append html
 
+showSpinner = -> spinner.velocity 'transition.slideUpIn', 300
+
+hideSpinner = -> spinner.velocity 'transition.slideDownOut', 300
+
 # Create a table
 successHandler = (data) ->
 
@@ -59,23 +64,30 @@ errorHandler = (err) ->
 
 # Display the data for Residential buildings
 displayResidential = ->
+  clearRows()
+  showSpinner()
+
   residential = api.getResidential "#{baseUrl}"
   residential.success (data) ->
-    clearRows()
+    hideSpinner()
     successHandler data
 
   residential.error (err) ->
-    clearRows()
+    hideSpinner()
     errorHandler err
 
+# Display the data for Commercial buildings
 displayCommercial = ->
+  clearRows()
+  showSpinner()
+
   commercial = api.getCommercial "#{baseUrl}"
   commercial.success (data) ->
-    clearRows()
+    hideSpinner()
     successHandler data
 
   commercial.error (err) ->
-    clearRows()
+    hideSpinner()
     errorHandler err
 
 $(document).ready ->
@@ -84,9 +96,11 @@ $(document).ready ->
   $('#residential').click ->
     $('.active').removeClass 'active'
     $(@).parent('li').addClass 'active'
+    results.find('tr').velocity 'stop'
     displayResidential()
 
   $('#commercial').click ->
     $('.active').removeClass 'active'
     $(@).parent('li').addClass 'active'
+    results.find('tr').velocity 'stop'
     displayCommercial()

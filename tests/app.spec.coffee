@@ -77,6 +77,22 @@ describe 'app', ->
     expect $.fn.append.calls.mostRecent().args[0].indexOf(therms) > -1
       .toEqual true
 
+  it 'showSpinner should show the loading spinner', ->
+    spyOn $.fn, 'velocity'
+
+    showSpinner()
+
+    expect $.fn.velocity
+      .toHaveBeenCalledWith 'transition.slideUpIn', 300
+
+  it 'hideSpinner should hide the loading spinner', ->
+    spyOn $.fn, 'velocity'
+
+    hideSpinner()
+
+    expect $.fn.velocity
+      .toHaveBeenCalledWith 'transition.slideDownOut', 300
+
   describe 'successHandler', ->
     it 'should call drawRow for each item in data', ->
       arr = []
@@ -114,6 +130,30 @@ describe 'app', ->
         success: (func) -> func data
         error: (func) -> func data
 
+    it 'should call clearRows', ->
+      spyOn window, 'clearRows'
+
+      displayResidential()
+
+      expect window.clearRows.calls.count()
+        .toEqual 1
+
+    it 'should call showSpinner', ->
+      spyOn window, 'showSpinner'
+
+      displayResidential()
+
+      expect window.showSpinner.calls.count()
+        .toEqual 1
+
+    it 'should call hideSpinner', ->
+      spyOn window, 'hideSpinner'
+
+      displayResidential()
+
+      expect window.hideSpinner.calls.count()
+        .toEqual 2
+
     it 'should call getResidential', ->
       displayResidential()
 
@@ -121,24 +161,18 @@ describe 'app', ->
         .toEqual 1
 
     it 'should pass data to successHandler', ->
-      spyOn window, 'clearRows'
       spyOn window, 'successHandler'
 
       displayResidential()
 
-      expect window.clearRows.calls.count()
-        .toEqual 2
       expect window.successHandler
         .toHaveBeenCalledWith data
 
     it 'should pass errors to errorHandler', ->
-      spyOn window, 'clearRows'
       spyOn window, 'errorHandler'
 
       displayResidential()
 
-      expect window.clearRows.calls.count()
-        .toEqual 2
       expect window.errorHandler
         .toHaveBeenCalledWith data
 
@@ -148,6 +182,30 @@ describe 'app', ->
         success: (func) -> func data
         error: (func) -> func data
 
+    it 'should call clearRows', ->
+      spyOn window, 'clearRows'
+
+      displayCommercial()
+
+      expect window.clearRows.calls.count()
+        .toEqual 1
+
+    it 'should call showSpinner', ->
+      spyOn window, 'showSpinner'
+
+      displayCommercial()
+
+      expect window.showSpinner.calls.count()
+        .toEqual 1
+
+    it 'should call hideSpinner', ->
+      spyOn window, 'hideSpinner'
+
+      displayCommercial()
+
+      expect window.hideSpinner.calls.count()
+        .toEqual 2
+
     it 'should call getCommercial', ->
       displayCommercial()
 
@@ -155,23 +213,17 @@ describe 'app', ->
         .toEqual 1
 
     it 'should pass data to successHandler', ->
-      spyOn window, 'clearRows'
       spyOn window, 'successHandler'
 
       displayCommercial()
 
-      expect window.clearRows.calls.count()
-        .toEqual 2
       expect window.successHandler
         .toHaveBeenCalledWith data
 
     it 'should pass errors to errorHandler', ->
-      spyOn window, 'clearRows'
       spyOn window, 'errorHandler'
 
       displayCommercial()
 
-      expect window.clearRows.calls.count()
-        .toEqual 2
       expect window.errorHandler
         .toHaveBeenCalledWith data
