@@ -50,6 +50,14 @@ describe 'app', ->
       expect $.ajax.calls.mostRecent().args[0].data.building_type
         .toEqual 'Commercial'
 
+  it 'clearRows should clear the rows of data', ->
+    spyOn $.fn, 'html'
+
+    clearRows()
+
+    expect $.fn.html
+      .toHaveBeenCalledWith ''
+
   it 'drawRow should append total_kwh and total_therms', ->
     spyOn $.fn, 'append'
     kwh = faker.random.number min: 1, max: 10
@@ -84,7 +92,7 @@ describe 'app', ->
       expect $.fn.find
         .toHaveBeenCalledWith 'tr'
       expect $.fn.velocity
-        .toHaveBeenCalledWith 'transition.flipYIn', stagger: 100
+        .toHaveBeenCalledWith 'transition.flipYIn', stagger: 75
 
   it 'errorHandler should append the error message', ->
     spyOn $.fn, 'append'
@@ -107,17 +115,57 @@ describe 'app', ->
         .toEqual 1
 
     it 'should pass data to successHandler', ->
+      spyOn window, 'clearRows'
       spyOn window, 'successHandler'
 
       displayResidential()
 
+      expect window.clearRows.calls.count()
+        .toEqual 2
       expect window.successHandler
         .toHaveBeenCalledWith data
 
     it 'should pass errors to errorHandler', ->
+      spyOn window, 'clearRows'
       spyOn window, 'errorHandler'
 
       displayResidential()
 
+      expect window.clearRows.calls.count()
+        .toEqual 2
+      expect window.errorHandler
+        .toHaveBeenCalledWith data
+
+  describe 'displayCommercial', ->
+    beforeEach ->
+      spyOn(api, 'getCommercial').and.callFake ->
+        success: (func) -> func data
+        error: (func) -> func data
+
+    it 'should call getCommercial', ->
+      displayCommercial()
+
+      expect api.getCommercial.calls.count()
+        .toEqual 1
+
+    it 'should pass data to successHandler', ->
+      spyOn window, 'clearRows'
+      spyOn window, 'successHandler'
+
+      displayCommercial()
+
+      expect window.clearRows.calls.count()
+        .toEqual 2
+      expect window.successHandler
+        .toHaveBeenCalledWith data
+
+    it 'should pass errors to errorHandler', ->
+      spyOn window, 'clearRows'
+      spyOn window, 'errorHandler'
+
+      displayCommercial()
+
+      expect window.clearRows.calls.count()
+        .toEqual 2
       expect window.errorHandler
         .toHaveBeenCalledWith data

@@ -25,6 +25,8 @@ api =
       url: url
       data: data
 
+clearRows = -> results.html ''
+
 # Draw a single row
 drawRow = (building) ->
   html =
@@ -42,7 +44,7 @@ successHandler = (data) ->
   for building in data
     drawRow building
 
-  results.find('tr').velocity 'transition.flipYIn', stagger: 100
+  results.find('tr').velocity 'transition.flipYIn', stagger: 75
 
 # Create an empty table with an error message
 errorHandler = (err) ->
@@ -52,12 +54,28 @@ errorHandler = (err) ->
     </tr>'
 
   results.append html
-  results.find('tr').velocity 'transition.flipYIn', stagger: 100
+  results.find('tr').velocity 'transition.flipYIn', stagger: 75
 
-# Called on document ready
+# Display the data for Residential buildings
 displayResidential = ->
   residential = api.getResidential "#{baseUrl}"
-  residential.success (data) -> successHandler data
-  residential.error (err) -> errorHandler err
+  residential.success (data) ->
+    clearRows()
+    successHandler data
 
-$(document).ready -> displayResidential()
+  residential.error (err) ->
+    clearRows()
+    errorHandler err
+
+displayCommercial = ->
+  commercial = api.getCommercial "#{baseUrl}"
+  commercial.success (data) ->
+    clearRows()
+    successHandler data
+
+  commercial.error (err) ->
+    clearRows()
+    errorHandler err
+
+$(document).ready ->
+  displayResidential()
