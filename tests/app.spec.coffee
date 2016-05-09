@@ -50,10 +50,57 @@ describe 'app', ->
       expect $.ajax.calls.mostRecent().args[0].data.building_type
         .toEqual 'Commercial'
 
+  it 'drawRow should append total_kwh and total_therms', ->
+    spyOn $.fn, 'append'
+    kwh = faker.random.number min: 1, max: 10
+    therms = faker.random.number min: 1, max: 10
+    building = total_kwh: kwh, total_therms: therms
+
+    drawRow building
+
+    expect $.fn.append.calls.mostRecent().args[0].indexOf(kwh) > -1
+      .toEqual true
+    expect $.fn.append.calls.mostRecent().args[0].indexOf(therms) > -1
+      .toEqual true
+
+  describe 'successHandler', ->
+    it 'should call drawRow for each item in data', ->
+      arr = []
+      for i in [0..4]
+        arr.push faker.hacker.noun()
+      spyOn window, 'drawRow'
+
+      successHandler arr
+
+      expect window.drawRow.calls.count()
+        .toEqual 5
+
+    it 'should animate in rows', ->
+      spyOn($.fn, 'find').and.callThrough()
+      spyOn $.fn, 'velocity'
+
+      successHandler []
+
+      expect $.fn.find
+        .toHaveBeenCalledWith 'tr'
+      expect $.fn.velocity
+        .toHaveBeenCalledWith 'transition.flipYIn', stagger: 100
+
+  describe 'errorHandler', ->
+    it 'should append the error message', ->
+      spyOn $.fn, 'append'
+
+      errorHandler()
+
+      expect $.fn.append.calls.mostRecent().args[0].indexOf('Error') > -1
+        .toEqual true
+
   describe 'init', ->
     it 'should call getResidential', ->
       success = jasmine.createSpy()
-      spyOn(api, 'getResidential').and.callFake -> success: success
+      spyOn(api, 'getResidential').and.callFake ->
+        success: success
+        error: -> return
 
       init()
 
@@ -62,12 +109,24 @@ describe 'app', ->
       expect success.calls.count()
         .toEqual 1
 
-    it 'should pass data to drawDom', ->
-      spyOn window, 'drawDom'
+    it 'should pass data to successHandler', ->
+      spyOn window, 'successHandler'
       spyOn(api, 'getResidential').and.callFake ->
         success: (func) -> func data
+        error: -> return
 
       init()
 
-      expect window.drawDom
+      expect window.successHandler
+        .toHaveBeenCalledWith data
+
+    it 'should pass errors to errorHandler', ->
+      spyOn window, 'errorHandler'
+      spyOn(api, 'getResidential').and.callFake ->
+        success: -> return
+        error: (func) -> func data
+
+      init()
+
+      expect window.errorHandler
         .toHaveBeenCalledWith data
